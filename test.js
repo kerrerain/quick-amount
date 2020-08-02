@@ -9,11 +9,11 @@ function testToQuicken() {
   actual = toQuicken(element);
 
   // Then
-  expected = "D01/08/2020\nT-30.00\nPCARTE Bill\n^\n"
+  expected = "D" + new Date().toLocaleDateString("en-US") + "\nT-30.00\nPCARTE Bill\n^\n"
 
   if (actual !== expected) {
     console.log("Assertion failed: element=%s expected=%s actual=%s",
-      element, expected, actual);
+      JSON.stringify(element), expected, actual);
   }
 }
 
