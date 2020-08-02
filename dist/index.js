@@ -1,3 +1,35 @@
+const FORM_IDS = [
+  "amount",
+  "payee"
+];
+
+$("#add-amount").on("click", function() {
+  form = {};
+
+  FORM_IDS.forEach(function(id) {
+    form[id] = $("#" + id).val()
+  });
+
+  $("#quicken-file-content").append(toQuicken(form));
+
+  resetForm(FORM_IDS);
+});
+
+function toQuicken(form) {
+  return "D01/08/2020\nT" + form.amount + "\nPCARTE " + form.payee + "\n^\n";
+}
+
+function resetForm(ids) {
+  // Reset every field of the form.
+  ids.forEach(function(id) {
+    $("#" + id).val("");
+  });
+  // Focus back to the first field of the form.
+  $("#" + ids[0]).focus();
+}
+
+// ---- QUICK AMOUNT INPUT ----
+
 $("input[data-type='quick-amount']").on({
   keyup: function() {
     let value = $(this).val();
@@ -45,59 +77,3 @@ function formatAmountWithTwoDecimals(amount) {
 
   return negativePart + partInteger + "." + partDecimal;
 }
-
-// ---- AUTOMATED TESTS ----
-
-TEST_CASES = [{
-    amount: "",
-    expected: "0.00"
-  },
-  {
-    amount: "1",
-    expected: "0.01"
-  },
-  {
-    amount: "0.01",
-    expected: "0.01"
-  },
-  {
-    amount: "13999",
-    expected: "139.99"
-  },
-  {
-    amount: "000.01",
-    expected: "0.01"
-  },
-  {
-    amount: "0.001",
-    expected: "0.01"
-  },
-  {
-    amount: "0,01",
-    expected: "0.01"
-  },
-  {
-    amount: "-0.01",
-    expected: "-0.01"
-  },
-  {
-    amount: "-13999",
-    expected: "-139.99"
-  },
-  {
-    amount: "13999-",
-    expected: "-139.99"
-  }
-]
-
-TEST_CASES.forEach(function(testCase) {
-  // Given
-  // When
-  actual = formatAmountWithTwoDecimals(testCase.amount);
-
-  // Then
-  if (actual !== testCase.expected) {
-    console.log("Assertion failed: amount=%s expected=%s actual=%s",
-      testCase.amount, testCase.expected, actual);
-  };
-});
