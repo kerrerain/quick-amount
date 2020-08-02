@@ -10,13 +10,14 @@ $("#add-amount").on("click", function() {
     form[id] = $("#" + id).val()
   });
 
-  $("#quicken-file-content").append(toQuicken(form));
+  $("#quicken-file-content").prepend(toQuicken(form));
 
   resetForm(FORM_IDS);
 });
 
 function toQuicken(form) {
-  return "D01/08/2020\nT" + form.amount + "\nPCARTE " + form.payee + "\n^\n";
+  return "D" + new Date().toLocaleDateString("en-US") + "\nT" +
+    form.amount + "\nPCARTE " + form.payee + "\n^\n";
 }
 
 function resetForm(ids) {
