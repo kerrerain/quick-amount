@@ -19,5 +19,5 @@ If using a library increases too much this metric, then do not use this library,
 https://github.com/AlDanial/cloc
 
 ```
-cloc . --json --out cloc-report.json
+cloc . --json --out reports/cloc-report.json
 ```

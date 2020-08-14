@@ -4,7 +4,7 @@ const FORM_IDS = [
 ];
 
 $("#add-amount").on("click", function() {
-  form = {};
+  let form = {};
 
   FORM_IDS.forEach(function(id) {
     form[id] = $("#" + id).val()
@@ -14,6 +14,27 @@ $("#add-amount").on("click", function() {
 
   resetForm(FORM_IDS);
 });
+
+$("#export-content").on("click", function() {
+  // Type:Bank by default.
+  downloadFile('test.qif', "!Type:Bank\n" + $("#quicken-file-content").val());
+});
+
+// Copy-Pasted from https://stackoverflow.com/a/18197511/9220212
+// Possible alternative to reduce cloc and handle cross-browser compatibility: https://github.com/eligrey/FileSaver.js/
+function downloadFile(filename, text) {
+  var pom = document.createElement('a');
+  pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  pom.setAttribute('download', filename);
+
+  if (document.createEvent) {
+    var event = document.createEvent('MouseEvents');
+    event.initEvent('click', true, true);
+    pom.dispatchEvent(event);
+  } else {
+    pom.click();
+  }
+}
 
 function toQuicken(form) {
   return "D" + new Date().toLocaleDateString("en-US") + "\nT" +
